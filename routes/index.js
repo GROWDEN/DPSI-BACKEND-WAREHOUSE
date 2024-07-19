@@ -7,7 +7,7 @@ const barangMasukRouter = require("./barangMasukRoutes");
 const barangKeluarRouter = require("./barangKeluarRoutes");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
+router.get("/home", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
