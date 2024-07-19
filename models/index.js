@@ -1,0 +1,53 @@
+const { Sequelize, DataTypes } = require("sequelize");
+
+// Replace these details with your actual database configuration
+const serviceUri =
+  "mysql://avnadmin:AVNS_fdFBsKs0smFsoNlFgvt@mysql-2be1a896-dpsi-24.e.aivencloud.com:13920/warehouse?ssl-mode=REQUIRED";
+
+const sequelize = new Sequelize(serviceUri, {
+  dialect: "mysql",
+  dialectModule: require("mysql2"),
+  logging: true,
+});
+
+// Import models
+const User = require("./user")(sequelize, DataTypes);
+const Barang = require("./barang")(sequelize, DataTypes);
+const BarangMasuk = require("./barangMasuk")(sequelize, DataTypes);
+const BarangKeluar = require("./barangKeluar")(sequelize, DataTypes);
+
+// Define relationships
+Barang.hasMany(BarangMasuk, { foreignKey: "barangId" });
+BarangMasuk.belongsTo(Barang, { foreignKey: "barangId" });
+
+Barang.hasMany(BarangKeluar, { foreignKey: "barangId" });
+BarangKeluar.belongsTo(Barang, { foreignKey: "barangId" });
+
+async function syncDatabase() {
+  try {
+    // Drop tables in a specific order
+    await sequelize.queryInterface.dropTable("BarangKeluar");
+    await sequelize.queryInterface.dropTable("BarangMasuk");
+    await sequelize.queryInterface.dropTable("Barang");
+
+    // Then synchronize all models
+    await sequelize.sync({ force: true });
+
+    console.log("Database synchronized successfully");
+  } catch (error) {
+    console.error("Error synchronizing database:", error);
+  } finally {
+    // Any cleanup or post-sync tasks
+    sequelize.close(); // Close database connection if needed
+  }
+}
+
+syncDatabase();
+
+module.exports = {
+  sequelize,
+  User,
+  Barang,
+  BarangMasuk,
+  BarangKeluar,
+};
