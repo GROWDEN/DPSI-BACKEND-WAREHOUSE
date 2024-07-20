@@ -7,10 +7,6 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
-var usersRouter = require("./routes/users");
-const barangRoutes = require("./routes/barangRoutes"); // Sesuaikan dengan path routes barangRoutes
-const barangKeluarRouter = require("./routes/barangKeluarRoutes");
-const barangMasukRouter = require("./routes/barangMasukRoutes");
 
 // Initialize Express
 var app = express();
@@ -25,18 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Static file handling
-app.use("/uploads", express.static("uploads"));
-
 // Routes
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/auth", authRouter);
-
-// Gunakan routes untuk /api/barang
-app.use("/api/barang", barangRoutes);
-app.use("/api", barangKeluarRouter);
-app.use("/api", barangMasukRouter);
 
 // Middleware to handle errors
 app.use(function (err, req, res, next) {

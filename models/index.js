@@ -25,10 +25,13 @@ BarangKeluar.belongsTo(Barang, { foreignKey: "barangId" });
 
 async function syncDatabase() {
   try {
+    await sequelize.authenticate();
+    console.log("Connection established successfully.");
+
     // Drop tables in a specific order
-    await sequelize.queryInterface.dropTable("BarangKeluar");
-    await sequelize.queryInterface.dropTable("BarangMasuk");
-    await sequelize.queryInterface.dropTable("Barang");
+    await sequelize.queryInterface.dropTable("BarangKeluar", { force: true });
+    await sequelize.queryInterface.dropTable("BarangMasuk", { force: true });
+    await sequelize.queryInterface.dropTable("Barang", { force: true });
 
     // Then synchronize all models
     await sequelize.sync({ force: true });
@@ -36,13 +39,8 @@ async function syncDatabase() {
     console.log("Database synchronized successfully");
   } catch (error) {
     console.error("Error synchronizing database:", error);
-  } finally {
-    // Any cleanup or post-sync tasks
-    sequelize.close(); // Close database connection if needed
   }
 }
-
-syncDatabase();
 
 module.exports = {
   sequelize,
@@ -50,4 +48,5 @@ module.exports = {
   Barang,
   BarangMasuk,
   BarangKeluar,
+  syncDatabase,
 };

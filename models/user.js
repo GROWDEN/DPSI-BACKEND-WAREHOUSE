@@ -18,9 +18,6 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM("staff"),
         allowNull: false,
       },
-      profilePic: {
-        type: DataTypes.STRING,
-      },
     },
     {
       hooks: {
