@@ -7,6 +7,8 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
+var sequelize = require('./models/index');
+
 
 // Initialize Express
 var app = express();
