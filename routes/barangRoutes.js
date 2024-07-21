@@ -32,9 +32,9 @@ router.get("/barang/:id", async (req, res) => {
 
 // POST create new barang
 router.post("/createbarang", async (req, res) => {
-  const { nama, harga, stok } = req.body;
+  const { nama, brand, hargaJual, stok } = req.body; // Include all required fields
   try {
-    const newBarang = await Barang.create({ nama, harga, stok });
+    const newBarang = await Barang.create({ nama, brand, hargaJual, stok });
     res.json(newBarang);
   } catch (error) {
     console.error("Error creating barang:", error);
@@ -45,14 +45,15 @@ router.post("/createbarang", async (req, res) => {
 // PUT update barang by ID
 router.put("/barang/:id", async (req, res) => {
   const { id } = req.params;
-  const { nama, harga, stok } = req.body;
+  const { nama, brand, hargaJual, stok } = req.body; // Include all required fields
   try {
     const barang = await Barang.findByPk(id);
     if (!barang) {
       res.status(404).json({ error: "Barang not found" });
     } else {
       barang.nama = nama;
-      barang.harga = harga;
+      barang.brand = brand;
+      barang.hargaJual = hargaJual;
       barang.stok = stok;
       await barang.save();
       res.json(barang);

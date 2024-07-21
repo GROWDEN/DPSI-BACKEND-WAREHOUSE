@@ -36,12 +36,13 @@ router.get("/barang-keluar/:id", async (req, res) => {
 
 // POST create new barang keluar
 router.post("/barang-keluar", async (req, res) => {
-  const { barangId, tanggalKeluar, namaBrand, jumlah, hargaSatuan } = req.body;
+  const { barangId, tanggalKeluar, namaPembeli, jumlah, hargaSatuan } =
+    req.body;
   try {
     const newBarangKeluar = await BarangKeluar.create({
       barangId,
       tanggalKeluar,
-      namaBrand,
+      namaPembeli,
       jumlah,
       hargaSatuan,
     });
@@ -55,7 +56,8 @@ router.post("/barang-keluar", async (req, res) => {
 // PUT update barang keluar by ID
 router.put("/barang-keluar/:id", async (req, res) => {
   const { id } = req.params;
-  const { barangId, tanggalKeluar, namaBrand, jumlah, hargaSatuan } = req.body;
+  const { barangId, tanggalKeluar, namaPembeli, jumlah, hargaSatuan } =
+    req.body;
   try {
     const barangKeluar = await BarangKeluar.findByPk(id);
     if (!barangKeluar) {
@@ -63,7 +65,7 @@ router.put("/barang-keluar/:id", async (req, res) => {
     } else {
       barangKeluar.barangId = barangId;
       barangKeluar.tanggalKeluar = tanggalKeluar;
-      barangKeluar.namaBrand = namaBrand;
+      barangKeluar.namaPembeli = namaPembeli;
       barangKeluar.jumlah = jumlah;
       barangKeluar.hargaSatuan = hargaSatuan;
       await barangKeluar.save();
