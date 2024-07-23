@@ -1,8 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
+require("dotenv").config(); // Load environment variables
 
-// Replace these details with your actual database configuration
-const serviceUri =
-  "mysql://avnadmin:AVNS_fdFBsKs0smFsoNlFgvt@mysql-2be1a896-dpsi-24.e.aivencloud.com:13920/warehouse?ssl-mode=REQUIRED";
+const serviceUri = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(serviceUri, {
   dialect: "mysql",
