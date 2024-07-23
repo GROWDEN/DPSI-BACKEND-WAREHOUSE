@@ -1,19 +1,21 @@
 const express = require("express");
 const { Barang } = require("../models");
-const { authenticate, authorize } = require("../middleware/auth");
+const { authenticate, authorize } = require("../middleware/auth"); // Middleware untuk autentikasi dan otorisasi
 
 const router = express.Router();
 
 // GET all barang
 router.get(
   "/allbarang",
-  authenticate,
-  authorize(["staff"]),
+  authenticate, // Middleware ini memeriksa apakah pengguna telah terautentikasi
+  authorize(["staff"]), // Middleware ini memeriksa apakah pengguna memiliki role sebagai "staff"
   async (req, res) => {
     try {
+      // Jika autentikasi dan otorisasi berhasil, handler rute ini akan dijalankan
       const barangs = await Barang.findAll();
       res.json(barangs);
     } catch (error) {
+      // Jika terjadi kesalahan saat mengambil data barang, kembalikan respons kesalahan
       console.error("Error fetching barangs:", error);
       res.status(500).json({ error: "Failed to fetch barangs" });
     }
